@@ -45,6 +45,7 @@ export default function Home() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [pickerMonth, setPickerMonth] = useState(3); // April (0-indexed)
   const [pickerYear, setPickerYear] = useState(2026);
+  const [showPaywallModal, setShowPaywallModal] = useState(false);
   const [showEventTypeSelector, setShowEventTypeSelector] = useState(false);
   const [showEventDetailsForm, setShowEventDetailsForm] = useState(false);
   const [showEventSummary, setShowEventSummary] = useState(false);
@@ -821,7 +822,7 @@ export default function Home() {
         </button>
 
         <button
-          onClick={() => setActiveTab('profile')}
+          onClick={() => setShowPaywallModal(true)}
           className="flex flex-col items-center py-3 px-6 transition-colors"
         >
           <svg className={`w-6 h-6 ${activeTab === 'profile' ? 'text-white' : 'text-gray-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -830,7 +831,7 @@ export default function Home() {
         </button>
 
         <button
-          onClick={() => setActiveTab('location')}
+          onClick={() => setShowPaywallModal(true)}
           className="flex flex-col items-center py-3 px-6 transition-colors"
         >
           <svg className={`w-6 h-6 ${activeTab === 'location' ? 'text-white' : 'text-gray-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -839,7 +840,7 @@ export default function Home() {
         </button>
 
         <button
-          onClick={() => setActiveTab('sync')}
+          onClick={() => setShowPaywallModal(true)}
           className="flex flex-col items-center py-3 px-6 transition-colors"
         >
           <svg className={`w-6 h-6 ${activeTab === 'sync' ? 'text-white' : 'text-gray-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1499,6 +1500,53 @@ export default function Home() {
           >
             Undo
           </button>
+        </div>
+      )}
+
+      {/* Paywall Modal */}
+      {showPaywallModal && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+          onClick={() => setShowPaywallModal(false)}
+        >
+          <div
+            className="bg-gray-800 rounded-3xl p-8 mx-4 max-w-md w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-center">
+              <svg className="w-16 h-16 mx-auto mb-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              
+              <h2 className="text-2xl font-semibold mb-4 text-white">Premium Feature</h2>
+              
+              <p className="text-gray-300 mb-2 text-lg">
+                This is an MVP demo
+              </p>
+              
+              <p className="text-gray-400 mb-6 text-base">
+                Not all features are currently available. Upgrade to unlock this feature and support development!
+              </p>
+
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => {
+                    window.location.href = '/pricing';
+                  }}
+                  className="w-full px-6 py-3 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors font-medium text-lg"
+                >
+                  Upgrade Now
+                </button>
+                
+                <button
+                  onClick={() => setShowPaywallModal(false)}
+                  className="w-full px-6 py-3 text-gray-300 hover:bg-gray-700 rounded-lg transition-colors"
+                >
+                  Maybe Later
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
